@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { TextField, Button } from "@material-ui/core";
 import { useHistory, useParams } from "react-router-dom";
 import useUsers from "../hooks/useUsers";
@@ -15,8 +15,6 @@ export function UserForm() {
 
   console.log(userId);
   console.log(selectedUser);
-
-  // сделать для айди стейт и переустанавливать его каждый раз при рендеринге формы
 
   const onUserFormSubmit = (e) => {
     e.preventDefault();
