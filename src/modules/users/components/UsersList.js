@@ -2,18 +2,15 @@ import React from "react";
 import UserListItem from "./UserListItem";
 import { Container } from "@material-ui/core";
 
-function UsersList({ list, onSelect, onDelete }) {
-
-
-
+function UsersList({ users, deleteUser, updateUser }) {
   return (
     <Container maxWidth="xl">
-      {list.map((user) => (
+      {users.map((user) => (
         <UserListItem
           key={user.id}
           user={user}
-          onSelect={onSelect}
-          onDelete={onDelete}
+          deleteUser={deleteUser}
+          updateUser={updateUser}
         />
       ))}
     </Container>

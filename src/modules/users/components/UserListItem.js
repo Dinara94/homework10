@@ -2,12 +2,14 @@ import React from "react";
 import { Link, useRouteMatch } from "react-router-dom";
 import { Grid, Button } from "@material-ui/core";
 
-function UserListItem({ user, onDelete }) {
+function UserListItem({ user, deleteUser, updateUser }) {
   const { url } = useRouteMatch();
   const onDeleteClick = (e) => {
-    e.preventDefault();
+    deleteUser(user.id);
+  };
 
-    onDelete(user.id);
+  const onUpdateClick = (e) => {
+    updateUser(user.id);
   };
 
   return (
@@ -26,17 +28,24 @@ function UserListItem({ user, onDelete }) {
         <p>{user.website}</p>
       </Grid>
       <Grid container item xs={2} spacing={0}>
-        <Link to={url + "/" + user.id}>
+        <Link to={url + user.id}>
           <Button
+            type="button"
             variant="contained"
             color="primary"
+            onClick={onUpdateClick}
           >
             Edit
           </Button>
         </Link>
       </Grid>
       <Grid container item xs={2} spacing={0}>
-        <Button variant="contained" color="secondary" onClick={onDeleteClick}>
+        <Button
+          type="button"
+          variant="contained"
+          color="secondary"
+          onClick={onDeleteClick}
+        >
           Delete
         </Button>
       </Grid>

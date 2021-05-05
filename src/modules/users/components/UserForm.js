@@ -1,29 +1,40 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import { TextField, Button } from "@material-ui/core";
 import { useHistory, useParams } from "react-router-dom";
-import useUsers from "../hooks/useUsers";
+import { connect } from "react-redux";
 import "./UseForm.css";
+import {
+  updateUser,
+  createUser,
+} from "../../../store/actions/actions";
 
-export function UserForm() {
+
+const initialValues = {
+  name: "",
+  phone: null,
+  email: "",
+};
+
+function UserForm({ updateUser, createUser}) {
   const history = useHistory();
   const { userId } = useParams();
-  const { save, findSelected, selectedUser, setSelectedUser } = useUsers();
+  const [ values, setValues ] = useState(initialValues);
 
-  useEffect(() => {
-    findSelected(userId);
-  }, []);
 
-  console.log(userId);
-  console.log(selectedUser);
-
-  const onUserFormSubmit = (e) => {
+  function onUserFormSubmit(e) {
     e.preventDefault();
-    save(selectedUser);
+    createUser(values);
     history.goBack();
+
+    resetForm();
+  };
+
+  function resetForm() {
+    setValues(initialValues);
   };
 
   const onChange = (e) => {
-    setSelectedUser({ ...selectedUser, [e.target.name]: e.target.value });
+    setValues({ ...values, [e.target.name]: e.target.value });
   };
 
   function onBackBtnClick() {
@@ -41,7 +52,7 @@ export function UserForm() {
           type="text"
           name="name"
           id="nameInput"
-          value={selectedUser ? selectedUser.name : ""}
+          /* value={selectedUser ? selectedUser.name : ""} */
           onChange={onChange}
           variant="standard"
           color="secondary"
@@ -56,7 +67,7 @@ export function UserForm() {
           type="text"
           name="phone"
           id="phoneInput"
-          value={selectedUser ? selectedUser.phone : ""}
+          /* value={selectedUser ? selectedUser.phone : ""} */
           onChange={onChange}
           variant="standard"
           color="secondary"
@@ -71,7 +82,7 @@ export function UserForm() {
           type="text"
           name="email"
           id="emailInput"
-          value={selectedUser ? selectedUser.email : ""}
+          /* value={selectedUser ? selectedUser.email : ""} */
           onChange={onChange}
           variant="standard"
           color="secondary"
@@ -102,4 +113,10 @@ export function UserForm() {
   );
 }
 
-export default UserForm;
+const mapDispatchToProps = {
+  updateUser,
+  createUser,
+}
+
+
+export default connect(null, mapDispatchToProps)(UserForm);

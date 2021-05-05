@@ -1,15 +1,20 @@
-import { Container } from "@material-ui/core";
 import React from "react";
+import { BrowserRouter as Router } from "react-router-dom";
+import { Container } from "@material-ui/core";
+import { Provider } from "react-redux";
 import Users from "./modules/users/components/Users";
-import { HashRouter as Router } from "react-router-dom";
+
+import store from "./store/store";
 
 function App() {
   return (
-    <Container maxWidth="md">
-      <Router>
-        <Users />
-      </Router>
-    </Container>
+    <Provider store={store}>
+      <Container maxWidth="md">
+        <Router>
+          <Users />
+        </Router>
+      </Container>
+    </Provider>
   );
 }
 

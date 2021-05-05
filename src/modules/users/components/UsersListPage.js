@@ -1,18 +1,22 @@
 import React from "react";
 import { Link, useRouteMatch } from "react-router-dom";
-import useUsers from "../hooks/useUsers";
 import UsersList from "./UsersList";
 import { Button } from "@material-ui/core";
+import { connect } from "react-redux";
+import {
+  deleteUser,
+  updateUser,
+} from "../../../store/actions/actions";
 
-export default function UsersListPage() {
+
+function UsersListPage({ users, dispatch }) {
   const { url } = useRouteMatch();
-  const { users, remove } = useUsers();
 
   return (
     <div>
       <h1 style={textStyle()}>Users</h1>
-      <UsersList list={users} onDelete={remove} />
-      <Link to={url + "/add"}>
+      <UsersList users={users} deleteUser={deleteUser} updateUser={updateUser} />
+      <Link to={url + "add"}>
         <Button variant="contained" color="default" style={btnStyle()}>
           Add new user
         </Button>
@@ -35,3 +39,15 @@ function textStyle() {
     textAlign: "center",
   };
 }
+
+function mapStateToProps(state) {
+  return { users: state.list };
+}
+
+const mapDispatchToProps = {
+   deleteUser,
+   updateUser,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(UsersListPage);
+
