@@ -3,11 +3,7 @@ import { TextField, Button } from "@material-ui/core";
 import { useHistory, useParams } from "react-router-dom";
 import { connect } from "react-redux";
 import "./UseForm.css";
-import {
-  updateUser,
-  createUser,
-} from "../../../store/actions/actions";
-
+import { updateUser, createUser } from "../../../store/actions/actions";
 
 const initialValues = {
   name: "",
@@ -15,23 +11,27 @@ const initialValues = {
   email: "",
 };
 
-function UserForm({ updateUser, createUser}) {
+function UserForm({ updateUser, createUser }) {
   const history = useHistory();
   const { userId } = useParams();
-  const [ values, setValues ] = useState(initialValues);
-
+  const [values, setValues] = useState(initialValues);
 
   function onUserFormSubmit(e) {
     e.preventDefault();
-    createUser(values);
-    history.goBack();
 
+    if (userId) {
+      updateUser(id);
+    } else {
+      createUser(values);
+    }
+
+    history.goBack();
     resetForm();
-  };
+  }
 
   function resetForm() {
     setValues(initialValues);
-  };
+  }
 
   const onChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
@@ -52,7 +52,7 @@ function UserForm({ updateUser, createUser}) {
           type="text"
           name="name"
           id="nameInput"
-          /* value={selectedUser ? selectedUser.name : ""} */
+          value={values.name}
           onChange={onChange}
           variant="standard"
           color="secondary"
@@ -67,7 +67,7 @@ function UserForm({ updateUser, createUser}) {
           type="text"
           name="phone"
           id="phoneInput"
-          /* value={selectedUser ? selectedUser.phone : ""} */
+          value={values.phone}
           onChange={onChange}
           variant="standard"
           color="secondary"
@@ -82,7 +82,7 @@ function UserForm({ updateUser, createUser}) {
           type="text"
           name="email"
           id="emailInput"
-          /* value={selectedUser ? selectedUser.email : ""} */
+          value={values.email}
           onChange={onChange}
           variant="standard"
           color="secondary"
@@ -116,7 +116,6 @@ function UserForm({ updateUser, createUser}) {
 const mapDispatchToProps = {
   updateUser,
   createUser,
-}
-
+};
 
 export default connect(null, mapDispatchToProps)(UserForm);

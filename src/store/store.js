@@ -1,10 +1,9 @@
-import { createStore, combineReducer } from "redux";
+import { createStore, applyMiddleware } from "redux";
 import reducers from "./reducers/reducers";
 
+import logger from "redux-logger";
+import thunk from "redux-thunk";
 
-const rootReducer = combineReducer({
-    reducers: reducers
-})
+const enchancer = applyMiddleware(thunk, logger);
 
-
-export default createStore(reducers);
+export default createStore(reducers, enchancer);

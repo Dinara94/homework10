@@ -1,8 +1,14 @@
-import React from "react";
+import React,  {useEffect } from "react";
 import UserListItem from "./UserListItem";
 import { Container } from "@material-ui/core";
+import api from "../../../api";
 
-function UsersList({ users, deleteUser, updateUser }) {
+function UsersList({ users, deleteUser, updateUser, setUsers }) {
+
+useEffect(() => {
+  api.get().then(({ data }) => setUsers(data));
+}, [])
+
   return (
     <Container maxWidth="xl">
       {users.map((user) => (

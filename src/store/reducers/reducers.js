@@ -1,26 +1,7 @@
 import { CREATE, DELETE, UPDATE } from "../actions/actions";
 
 const INITIAL_STATE = {
-  list: [
-    {
-      id: 2,
-      name: "Jane Air",
-      phone: 55566687,
-      mail: "user@gmail.com",
-    },
-    {
-      id: 3,
-      name: "Joe Tribbiani",
-      phone: 55566687,
-      mail: "user@gmail.com",
-    },
-    {
-      id: 4,
-      name: "Angela Davis",
-      phone: 55566687,
-      mail: "user@gmail.com",
-    },
-  ],
+  list: [],
 };
 
 export default function reducers(state = INITIAL_STATE, { type, payload }) {
@@ -32,11 +13,9 @@ export default function reducers(state = INITIAL_STATE, { type, payload }) {
       };
 
     case UPDATE: {
-      const item = state.list.find((element) => element.id === payload);
-      const newItem = { ...item, completed: !item.completed };
       return {
         ...state,
-        list: state.list.map((item) => (item.id !== payload ? item : newItem)),
+        list: state.list.map((item) => (item.id !== payload.id ? item : payload)),
       };
     }
 
