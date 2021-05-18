@@ -1,9 +1,5 @@
-import { createStore, applyMiddleware } from "redux";
-import reducers from "./reducers/reducers";
+import { applyMiddleware, createStore } from 'redux';
+import reducer from './reducers/reducers';
+import thunk from 'redux-thunk';
 
-import logger from "redux-logger";
-import thunk from "redux-thunk";
-
-const enchancer = applyMiddleware(thunk, logger);
-
-export default createStore(reducers, enchancer);
+export default createStore(reducer, applyMiddleware(thunk));

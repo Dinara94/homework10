@@ -1,21 +1,73 @@
-import React from "react";
-import { BrowserRouter as Router } from "react-router-dom";
-import { Container } from "@material-ui/core";
-import { Provider } from "react-redux";
-import Users from "./modules/users/components/Users";
+import CssBaseline from '@material-ui/core/CssBaseline';
+import { makeStyles, ThemeProvider } from '@material-ui/core/styles';
+import React from 'react';
+import theme from './theme';
+import Header from './components/Header';
+import {
+    BrowserRouter as Router,
+    Redirect,
+    Route,
+    Switch,
+} from 'react-router-dom';
+import Sidebar from './components/Sidebar';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import { connect } from 'react-redux';
+import { fetchContacts } from './store/actions/actions';
+import ContactForm from './components/ContactForm';
 
-import store from "./store/store";
+const useStyles = makeStyles((theme) => ({
+    root: {
+        display: 'flex',
+    },
+    appBarSpacer: theme.mixins.toolbar,
+    content: {
+        flexGrow: 1,
+        height: '100vh',
+        overflow: 'auto',
+    },
+}));
 
-function App() {
-  return (
-    <Provider store={store}>
-      <Container maxWidth="md">
+function App({ fetchContacts }) {
+    const classes = useStyles();
+    const [sidebarOpened, setSidebarOpened] = useState(false);
+
+    useEffect(() => {
+        fetchContacts();
+    }, [fetchContacts]);
+
+    const toggleSidebar = () => setSidebarOpened(!sidebarOpened);
+
+    return (
         <Router>
-          <Users />
+            <ThemeProvider theme={theme}>
+                <CssBaseline />
+                <div className={classes.root}>
+                    <Header
+                        sidebarOpened={sidebarOpened}
+                        toggleSidebar={toggleSidebar}
+                    />
+                    <Sidebar
+                        sidebarOpened={sidebarOpened}
+                        toggleSidebar={toggleSidebar}
+                    />
+                    <main className={classes.content}>
+                        <div className={classes.appBarSpacer} />
+                        <Switch>
+                            <Route path="/form/:id" component={ContactForm} />
+                            <Route path="*">
+                                <Redirect to="/form/new" />
+                            </Route>
+                        </Switch>
+                    </main>
+                </div>
+            </ThemeProvider>
         </Router>
-      </Container>
-    </Provider>
-  );
+    );
 }
 
-export default App;
+const mapDispatchToProps = {
+    fetchContacts,
+};
+
+export default connect(null, mapDispatchToProps)(App);
