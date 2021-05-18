@@ -12,9 +12,8 @@ import { deleteContact, saveContact } from '../store/actions/actions';
 import DeleteIcon from '@material-ui/icons/Delete';
 import SaveIcon from '@material-ui/icons/Save';
 
-import { ErrorMessage, Field, Form, Formik, useFormik } from 'formik';
-import FormikTextField from '../common/components/form/FormikTextField';
-import FormikButton from '../common/components/form/FormikButton';
+import TextField from '../common/components/form/TextField';
+import Button from '../common/components/form/Button';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -92,29 +91,28 @@ function ContactForm({ contact, saveContact, deleteContact }) {
                             Contact Form
                         </Typography>
 
-                        <Formik
+                        <form
                             initialValues={contact}
-                            enableReinitialize
                             onSubmit={onSubmit}
                             validate={validate}
                         >
                             <Form>
                                 <Grid container spacing={3}>
                                     <Grid item xs={12} md={6}>
-                                        <FormikTextField
+                                        <TextField
                                             name="name"
                                             label="Name"
                                         />
                                     </Grid>
                                     <Grid item xs={12} md={6}>
-                                        <FormikTextField
+                                        <TextField
                                             name="surname"
                                             label="Surname"
                                             className="asdfadf"
                                         />
                                     </Grid>
                                     <Grid item xs={12} md={6}>
-                                        <FormikTextField
+                                        <TextField
                                             name="phone"
                                             label="Phone"
                                         />
@@ -137,7 +135,7 @@ function ContactForm({ contact, saveContact, deleteContact }) {
                                         >
                                             Delete
                                         </Button>
-                                        <FormikButton
+                                        <Button
                                             type="submit"
                                             variant="contained"
                                             color="primary"
@@ -145,11 +143,11 @@ function ContactForm({ contact, saveContact, deleteContact }) {
                                             startIcon={<SaveIcon />}
                                         >
                                             Save
-                                        </FormikButton>
+                                        </Button>
                                     </Grid>
                                 </Grid>
                             </Form>
-                        </Formik>
+                        </form>
                     </Paper>
                 </Grid>
             </Grid>

@@ -1,6 +1,8 @@
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import React from 'react';
+import { useState } from 'react';
+import { useEffect } from 'react';
 import theme from './theme';
 import Header from './components/Header';
 import {
@@ -10,8 +12,6 @@ import {
     Switch,
 } from 'react-router-dom';
 import Sidebar from './components/Sidebar';
-import { useState } from 'react';
-import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { fetchContacts } from './store/actions/actions';
 import ContactForm from './components/ContactForm';

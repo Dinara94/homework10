@@ -2,7 +2,7 @@ import { TextField } from '@material-ui/core';
 import { useFormikContext } from 'formik';
 import React from 'react';
 
-function FormikTextField(props) {
+function TextField(props) {
     const { values, handleChange, handleBlur, errors, touched } =
         useFormikContext();
     const { name } = props;
@@ -19,4 +19,4 @@ function FormikTextField(props) {
     );
 }
 
-export default FormikTextField;
+export default TextField;

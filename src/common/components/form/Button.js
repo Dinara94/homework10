@@ -2,7 +2,7 @@ import { Button } from '@material-ui/core';
 import { useFormikContext } from 'formik';
 import React from 'react';
 
-function FormikButton({ children, ...props }) {
+function Button({ children, ...props }) {
     const { isValid } = useFormikContext();
 
     return (
@@ -12,4 +12,4 @@ function FormikButton({ children, ...props }) {
     );
 }
 
-export default FormikButton;
+export default Button;
