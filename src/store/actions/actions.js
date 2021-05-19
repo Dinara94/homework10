@@ -35,7 +35,6 @@ const addContact = async (contact, dispatch) => {
     return data;
 };
 export const saveContact = (contact) => (dispatch) => {
-    console.log('save action', contact);
     return contact.id ?
         changeContact(contact, dispatch) :
         addContact(contact, dispatch);

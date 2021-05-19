@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
+import Input from "@material-ui/core/Input";
 import Grid from '@material-ui/core/Grid';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Paper from '@material-ui/core/Paper';
@@ -11,9 +12,6 @@ import { useHistory, withRouter } from 'react-router-dom';
 import { deleteContact, saveContact } from '../store/actions/actions';
 import DeleteIcon from '@material-ui/icons/Delete';
 import SaveIcon from '@material-ui/icons/Save';
-
-import TextField from '../common/components/form/TextField';
-import Button from '../common/components/form/Button';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -41,35 +39,22 @@ const useStyles = makeStyles((theme) => ({
 function ContactForm({ contact, saveContact, deleteContact }) {
     const classes = useStyles();
     const history = useHistory();
+    const [editContact, setEditContact] = useState(contact);
 
-    const onSubmit = async (contact) => {
-        const { id } = await saveContact(contact);
+    useEffect(() => {
+        setEditContact(contact);
+    }, [contact.id]);
+
+    const onChange = ({ target }) => {
+        setEditContact({ ...editContact, [target.name]: [target.value]});
+    };
+
+    const onSubmit = async (e) => {
+        e.preventDefault();
+        const { id } = await saveContact(editContact);
 
         history.push(`/form/${id}`);
     };
-
-    const validate = (values) => {
-        const errors = {};
-        if (!values.name) {
-            errors.name = 'Name is required';
-        } else if (values.name.length > 100) {
-            errors.name = 'Name is too long';
-        }
-
-        if (isNaN(values.phone)) {
-            errors.phone = 'Phone should be number';
-        }
-
-        return errors;
-    };
-
-    function validateName(value) {
-        if (!value) {
-            return 'Name is required';
-        } else if (value.length > 100) {
-            return 'Name is too long';
-        }
-    }
 
     const onDelete = async () => {
         await deleteContact(contact.id);
@@ -92,29 +77,33 @@ function ContactForm({ contact, saveContact, deleteContact }) {
                         </Typography>
 
                         <form
-                            initialValues={contact}
+                            /* initialValues={contact} */
                             onSubmit={onSubmit}
-                            validate={validate}
                         >
-                            <Form>
                                 <Grid container spacing={3}>
                                     <Grid item xs={12} md={6}>
-                                        <TextField
+                                        <Input
                                             name="name"
                                             label="Name"
+                                            onChange={onChange}
+                                            value={editContact.name}
                                         />
                                     </Grid>
                                     <Grid item xs={12} md={6}>
-                                        <TextField
+                                        <Input
                                             name="surname"
                                             label="Surname"
                                             className="asdfadf"
+                                            onChange={onChange}
+                                            value={editContact.surname}
                                         />
                                     </Grid>
                                     <Grid item xs={12} md={6}>
-                                        <TextField
+                                        <Input
                                             name="phone"
                                             label="Phone"
+                                            onChange={onChange}
+                                            value={editContact.phone}
                                         />
                                     </Grid>
                                 </Grid>
@@ -146,7 +135,6 @@ function ContactForm({ contact, saveContact, deleteContact }) {
                                         </Button>
                                     </Grid>
                                 </Grid>
-                            </Form>
                         </form>
                     </Paper>
                 </Grid>
